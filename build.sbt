@@ -13,6 +13,8 @@ libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0
 libraryDependencies += "org.apache.spark" %% "spark-sql" % sparkVersion
 libraryDependencies += "org.apache.spark" %% "spark-core" % sparkVersion
 libraryDependencies += "org.postgresql" % "postgresql" % "42.5.4"
+libraryDependencies += "com.lihaoyi" %% "requests" % "0.7.0"
+libraryDependencies += "com.lihaoyi" %% "ujson" % "1.4.1"
 
 
 // Adds additional packages into Twirl

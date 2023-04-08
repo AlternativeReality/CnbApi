@@ -1,7 +1,9 @@
 package controllers
 
+import Rate.Rate.getDataForApi
 import db_controller.DbController._
-import models.Person
+
+
 import javax.inject._
 import play.api.libs.json._
 import play.api.mvc.{Action, AnyContent, BaseController, ControllerComponents}
@@ -10,57 +12,19 @@ import play.api.mvc.{Action, AnyContent, BaseController, ControllerComponents}
 class TodoListController @Inject()(val controllerComponents: ControllerComponents)
   extends BaseController {
 
-  implicit val newPersonJson = Json.format[Person]
-
-  def getAll(): Action[AnyContent] = Action {
-    val persons = getAllPersonsFromDb()
-    if (persons.isEmpty) {
-      NoContent
-    } else {
-      Ok(persons)
-    }
+  def writeDataIntoDb(period: String): Action[AnyContent] = Action {
+    val Array(startDate, endDate) = period.split("to")
+    val resp = writeRatesIntoDb(startDate, endDate)
+    Ok("Данные загружены в бд")
   }
 
-  def getPersonById(personId: Integer): Action[AnyContent] = Action {
-    val persons = getPersonByIdFromDb(personId)
-    if (persons.isEmpty) {
+  def getDataForCurrency(period: String): Action[AnyContent] = Action {
+    val Array(startDate, endDate) = period.split("to")
+   val data =  getDataForApi(startDate, endDate)
+    if (data.isEmpty) {
       NoContent
     } else {
-      Ok(persons)
-    }
-  }
-
-  def getAllWorkPlaces(): Action[AnyContent] = Action {
-    val workPlaces = getAllWorkPlacesFromDb()
-    if (workPlaces.isEmpty) {
-      NoContent
-    } else {
-      Ok(workPlaces)
-    }
-  }
-
-  def getAllData(): Action[AnyContent] = Action {
-    val allData = getAllDataFromDb()
-    if (allData.isEmpty) {
-      NoContent
-    } else {
-      Ok(allData)
-    }
-  }
-
-  def addNewItem() = Action { implicit request =>
-
-    val content = request.body
-    val jsonObject = content.asJson
-
-    val newPersonData: Option[Person] = jsonObject.flatMap(Json.fromJson[Person](_).asOpt)
-
-    newPersonData match {
-      case Some(newItem) =>
-        addNewPerson(newItem.name)
-        Created("Json.toJson(toBeAdded)")
-      case None =>
-        BadRequest
+      Ok(data)
     }
   }
 }

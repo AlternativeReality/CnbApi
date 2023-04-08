@@ -4,11 +4,10 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /corporate_name                       controllers.TodoListController.getAll
-GET     /corporate_name/:personId                      controllers.TodoListController.getPersonById(personId:Integer)
-GET     /work_places/                      controllers.TodoListController.getAllWorkPlaces
-GET     /all_data/                      controllers.TodoListController.getAllData
-POST    /add_person/                      controllers.TodoListController.addNewItem()
+
+GET     /rates/:Period                     controllers.TodoListController.writeDataIntoDb(Period: String)
+GET     /getrates/:Period                     controllers.TodoListController.getDataForCurrency(Period: String)
+
 
 
 # Map static resources from the /public folder to the /assets URL path

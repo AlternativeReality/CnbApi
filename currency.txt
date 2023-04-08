@@ -1,0 +1,2 @@
+EMU euro,Canada dollar,Hongkong dollar,
+
